@@ -24,6 +24,7 @@ final class CreateUserUseCase
 
             $user = new User();
             $user->fill([
+              'id' => $command->getId(),
               'name' => $command->getName(),
               'email' => $command->getEmail(),
               'password' => $command->getPassword(),
