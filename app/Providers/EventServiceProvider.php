@@ -13,9 +13,19 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\Event' => [
-            'App\Listeners\EventListener',
-        ],
+
+        // Command -> CommandHandler chains (one-to-one)
+      \App\Commands\CreateUserCommand::class => [ \App\CommandHandlers\CreateUserCommandHandler::class ],
+
+      // DomainEvent -> Listeners chains
+      \App\Events\UserRegistered::class => [
+        \App\Listeners\UserRegistered::class,
+      ],
+
+      \App\Events\UserUnableRegister::class => [
+        \App\Listeners\UserUnableRegister::class,
+      ],
+
     ];
 
     /**

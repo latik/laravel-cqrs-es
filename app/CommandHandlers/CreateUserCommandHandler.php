@@ -1,12 +1,14 @@
 <?php
 
-namespace App\UseCases;
+namespace App\CommandHandlers;
 
 use App\Commands\CreateUserCommand;
 use App\Contracts\UserRepository;
+use App\Events\UserRegistered;
+use App\Events\UserUnableRegister;
 use App\User;
 
-final class CreateUserUseCase
+final class CreateUserCommandHandler
 {
     private $userRepository;
 
@@ -30,9 +32,9 @@ final class CreateUserUseCase
               'password' => $command->getPassword(),
             ]);
 
-            $this->userRepository->save($user);
+            event(UserRegistered::fromArray(\compact('user')));
         } catch (\Exception $exception) {
-            throw new \DomainException(\sprintf('Unable create new user: %s ', $exception->getMessage()));
+            event(UserUnableRegister::fromArray(\compact('user', 'exception')));
         }
     }
 }
