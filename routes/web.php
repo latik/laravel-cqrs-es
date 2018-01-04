@@ -14,3 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/create-user', function () {
+    return view('auth.create');
+});
+Route::post('/create-user', 'Auth\CreateUser');
